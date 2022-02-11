@@ -8,4 +8,6 @@ library(ggplot2) ## biblioteca para plotagem dos dados
 basedosdados::set_billing_id("resonant-petal-287222")
 # Para carregar o dado direto no R
 query <- "SELECT * FROM `basedosdados.br_anp_precos_combustiveis.microdados`"
-read_sql(query)
+df <- read_sql(query)
+
+View(df)
