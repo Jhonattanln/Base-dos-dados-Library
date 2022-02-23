@@ -14,18 +14,26 @@ WHERE id_municipio = '4106902' AND(unidade_medida = 'R$/litro')
 ORDER BY data_coleta DESC"
 df <- read_sql(query)
 
+glimpse(df)
+
 drop <- c('id_municipio') ### deletar código do municipio
 
 ### Selecionando postos por gasolina
 postos <- df %>%
   select(-drop) %>%
-  filter(produto == 'gasolina')
+  filter(produto == 'gasolina') %>%
+  rename(preço = preco_venda)
   
-postos %>%
-  count(bandeira_revenda, sort=TRUE) ### contando aparições da bandeira
+colnames(postos)
 
 postos %>%
   select(-data_coleta) %>%
+  group_by(nome_estabelecimento) %>%
+  summarise(mean_preco = mean(preço)) %>%
+  top_n(3, mean_preco)
+  #count(bandeira_revenda, sort=TRUE) ### contando aparições da bandeira
+
+postos %>%
   group_by(bairro_revenda) %>%
   top_n(3, preco_venda)
 
@@ -34,3 +42,5 @@ years <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021)
 for (year in years){
   df = postos[postos$data_coleta == year]
 }
+
+View(ipca)
