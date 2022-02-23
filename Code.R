@@ -14,14 +14,20 @@ WHERE id_municipio = '4106902' AND(unidade_medida = 'R$/litro')
 ORDER BY data_coleta DESC"
 df <- read_sql(query)
 
-drop <- c('id_municipio')
+drop <- c('id_municipio') ### deletar código do municipio
 
+### Selecionando postos por gasolina
 postos <- df %>%
   select(-drop) %>%
   filter(produto == 'gasolina')
   
 postos %>%
-  count(bandeira_revenda, sort=TRUE)
+  count(bandeira_revenda, sort=TRUE) ### contando aparições da bandeira
+
+postos %>%
+  select(-data_coleta) %>%
+  group_by(bairro_revenda) %>%
+  top_n(3, preco_venda)
 
 years <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021)
 
