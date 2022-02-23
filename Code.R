@@ -14,10 +14,17 @@ WHERE id_municipio = '4106902' AND(unidade_medida = 'R$/litro')
 ORDER BY data_coleta DESC"
 df <- read_sql(query)
 
-### Selecionando por anos
+drop <- c('id_municipio')
 
-anos <- c(2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021)
-
-for (i in anos){
+postos <- df %>%
+  select(-drop) %>%
+  filter(produto == 'gasolina')
   
+postos %>%
+  count(bandeira_revenda, sort=TRUE)
+
+years <- c(2015, 2016, 2017, 2018, 2019, 2020, 2021)
+
+for (year in years){
+  df = postos[postos$data_coleta == year]
 }
