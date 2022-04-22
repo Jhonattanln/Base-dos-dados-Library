@@ -24,6 +24,23 @@ dplyr::glimpse(df)
 
 drop <- c('id_municipio') ### deletar código do municipio
 
+gasolina_mensal <- df %>%
+  filter(produto == 'gasolina') ### selecionando o produto
+  dplyr::group_by(
+    # cria uma coluna de data no formato "YYYY-MM"
+    ano_mes = paste0(
+      substr(x = as.character(), start = 1L, stop = 4L),
+      "-",
+      substr(x = as.character(data_coleta), start = 6L, stop = 7L)
+    )
+  )
+  
+colnames(df)
+
+gasolina_mensal
+
+########################################_________##################################
+
 ### Selecionando postos por gasolina
 postos <- df %>%
   select(-drop) %>%
