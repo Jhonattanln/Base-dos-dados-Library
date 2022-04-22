@@ -2,8 +2,14 @@
 
 library(dplyr) ## biblioteca para manupulação de dados
 library(basedosdados) ## biblioteca para consuta dos dados
-library(tidyverse) 
+library(tidyverse)
+library(lubridate)
+library(magrittr)
+library(scales)
+library(sidrar)
+library(ggrepel)
 library(ggplot2) ## biblioteca para plotagem dos dados
+library(ggthemes)
 
 basedosdados::set_billing_id("resonant-petal-287222")
 
@@ -14,7 +20,7 @@ WHERE id_municipio = '4106902' AND(unidade_medida = 'R$/litro')
 ORDER BY data_coleta DESC"
 df <- read_sql(query)
 
-glimpse(df)
+dplyr::glimpse(df)
 
 drop <- c('id_municipio') ### deletar c�digo do municipio
 
